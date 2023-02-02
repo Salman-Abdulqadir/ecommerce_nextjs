@@ -3,7 +3,16 @@ import { GET_PRODUCT_QUERY } from "@/util/query";
 import { useRouter } from "next/router";
 import { StyledProductDetails } from "@/styles/productDetails";
 
-import {AiFillMinusSquare, AiFillPlusSquare, AiOutlineMinusSquare, AiOutlinePlusSquare} from 'react-icons/ai'
+import {
+  AiFillMinusSquare,
+  AiFillPlusSquare,
+  AiOutlineMinusSquare,
+  AiOutlinePlusSquare,
+} from "react-icons/ai";
+
+//shop context
+import { useStateContext } from "@/util/context";
+
 export default function ProductDetails() {
   const { query } = useRouter();
   //fetch graphql data
@@ -16,7 +25,9 @@ export default function ProductDetails() {
   if (fetching) return <h1>Loading...</h1>;
   if (error) return <h1>Oh no... {error.message}</h1>;
 
-  const { title, description, price, image } = data.products.data[0].attributes;
+  const product = data.products.data[0].attributes;
+  const { title, description, price, image } = product;
+  const { qty, increaseQty, decreaseQty, addToCart } = useStateContext();
   return (
     <StyledProductDetails>
       <img src={image.data.attributes.formats.medium?.url} alt="" />
@@ -27,11 +38,17 @@ export default function ProductDetails() {
         </div>
         <div className="quantity">
           <span>Quantity:</span>
-          <button><AiFillPlusSquare/></button>
-          <p>0</p>
-          <button><AiFillMinusSquare></AiFillMinusSquare></button>
+          <button>
+            <AiFillPlusSquare onClick={increaseQty} />
+          </button>
+          <p>{qty}</p>
+          <button>
+            <AiFillMinusSquare onClick={decreaseQty} />
+          </button>
         </div>
-        <button className="cart-btn">Add to cart</button>
+        <button onClick={() => addToCart(product, qty)} className="cart-btn">
+          Add to cart
+        </button>
       </div>
     </StyledProductDetails>
   );

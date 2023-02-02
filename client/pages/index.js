@@ -7,17 +7,21 @@ import { PRODUCT_QUERY } from "@/util/query";
 //styled components
 import { Products } from "@/styles/product_styles";
 
+//components
+import Nav from "@/components/nav";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   //FETCH PRODUCTS FROM STRAPI
   const [results] = useQuery({ query: PRODUCT_QUERY });
   const { data, fetching, error } = results;
-  
+
   if (fetching) return <h1>Loading...</h1>;
-  if (error) return <h1>Oh no... {error.message}</h1>
+  if (error) return <h1>Oh no... {error.message}</h1>;
 
   const products = data.products.data;
+  
   return (
     <>
       <Head>
@@ -26,10 +30,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      <Nav/>
       <main>
-        <h1>Hello react</h1>
+
         <Products>
-          {products.map((product) => <Product key={product.attributes.slug} product={product}/>)}
+          {products.map((product) => (
+            <Product key={product.attributes.slug} product={product} />
+          ))}
         </Products>
       </main>
     </>

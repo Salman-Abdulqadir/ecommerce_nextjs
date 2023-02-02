@@ -4,7 +4,6 @@ import Link from "next/link";
 
 const Product = ({ product }) => {
     const { title, price, image, slug } = product.attributes;
-    console.log(price);
   return (
     <StyledProduct>
       <Link href={`/product/${slug}`} className="image">

@@ -25,7 +25,6 @@ export const StyledProductDetails = styled.div`
     }
 
     .cart-btn{
-        align-self: flex-start;
         background-color: #401F3E;
         padding: 1rem 2rem;
         font-size: 1rem;
