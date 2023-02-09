@@ -16,3 +16,8 @@ button{
   font-family: inherit;
   cursor: pointer;
 }
+.flex{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
